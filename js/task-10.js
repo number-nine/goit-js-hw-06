@@ -7,28 +7,38 @@ function getRandomHexColor() {
 const refs = {
   controlsDiv: document.querySelector('#controls'),
   createBtn: document.querySelector('[data-create]'),
+  destroyBtn: document.querySelector('[data-destroy]'),
   boxesArea: document.querySelector('#boxes'),
-}
+};
 
 refs.createBtn.addEventListener('click', onCreateClick);
+refs.destroyBtn.addEventListener('click', onDestroyClick);
 
-function onCreateClick(event){
+function onCreateClick(event) {
   event.preventDefault();
+  initContainerStyles();
+  createBoxes(refs.controlsDiv.firstElementChild.value);
+}
+
+function createBoxes(amount) {
   let htmlString = '';
-  console.dir(refs.controlsDiv.firstElementChild.value);
-  for (let i = 0; i < refs.controlsDiv.firstElementChild.value; i += 1) {
-    console.log(30+i*10);
-    const size = 30+i*10;
-  htmlString += `<div style="
-  border: 1px solid #333333;
-  width:${size}px;
-  height:${size}px;
-  "></div>`
-    
+  for (let i = 0; i < amount; i += 1) {
+    const size = 30 + i * 10;
+    htmlString += `<div style="width:${size}px; height:${size}px; background-color: ${getRandomHexColor()}"></div>`;
   }
   refs.boxesArea.innerHTML = htmlString;
 }
 
-// console.dir(refs.controlsDiv.firstChild.value);
+function onDestroyClick(event) {
+  event.preventDefault();
+  destroyBoxes();
+}
 
-function createBoxes(amount) {}
+function destroyBoxes() {
+  refs.boxesArea.innerHTML = '';
+}
+
+function initContainerStyles() {
+  refs.boxesArea.style.display = 'flex';
+  refs.boxesArea.style.flexWrap = 'wrap';
+}
